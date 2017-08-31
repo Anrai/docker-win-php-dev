@@ -1,0 +1,46 @@
+version: '2'
+services:
+### Application Code Container ######################
+    applications:
+        image: tianon/true
+        container_name: app
+        volumes:
+            - /phpdev/app:/home/www
+### PHP-FPM Container #######################################
+    php-fpm:
+        build: ./services/php-fpm
+        container_name: php-fpm
+        ports:
+            - "9000:9000"
+        volumes_from:
+            - applications
+        links:
+            - mysql
+        restart: always
+### Nginx Server Container ##################################
+    nginx:
+        build: ./services/nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes_from:
+            - applications
+        volumes:
+            - /phpdev/services/nginx/log/:/var/log/nginx
+            #- /phpdev/services/nginx/conf:/etc/nginx
+        links:
+            - php-fpm
+        restart: always
+### MySQL Container #########################################
+    mysql:
+        build: ./services/mysql
+        container_name: mysql
+        volumes:
+            - /phpdev/services/mysql/data:/var/lib/mysql
+            - /phpdev/services/mysql/log:/var/log/mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        restart: always
