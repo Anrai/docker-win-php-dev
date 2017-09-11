@@ -9,6 +9,8 @@ ADD sites/*.conf /etc/nginx/conf.d/
 RUN mkdir /home/www
 RUN chown -R www-data.www-data /home/www
 
+RUN  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 CMD ["nginx"]
 
 EXPOSE 80 443

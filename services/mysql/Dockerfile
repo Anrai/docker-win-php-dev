@@ -7,6 +7,8 @@ ADD my.cnf /etc/mysql/conf.d/my.cnf
 
 RUN usermod -u 1000 mysql && chown mysql.mysql /var/run/mysqld/
 
+RUN  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 CMD ["mysqld"]
 
 EXPOSE 3306

@@ -54,6 +54,8 @@ WORKDIR    /home/www/
 
 RUN usermod -u 1000 www-data
 
+RUN  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 CMD ["php-fpm"]
 
 # 对外暴露端口
